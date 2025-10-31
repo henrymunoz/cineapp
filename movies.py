@@ -100,7 +100,10 @@ st.markdown(page_bg, unsafe_allow_html=True)
 
 # ===== CARGAR DATA =====
 #df = pd.read_excel("movies_buscador_IN_ESP.xlsx")  SE ELIMINA BUSQUEDA EN EXCEL
-df = pd.read_csv("movies_buscador_IN_ESP.csv", sep=';', encoding='utf-8', engine='python')
+#df = pd.read_csv("movies_buscador_IN_ESP.csv", sep=';', encoding='utf-8', engine='python')
+df = pd.read_csv("movies_buscador_IN_ESP.csv", sep=';', encoding='latin-1', engine='python')
+df = df.dropna(axis=1, how='all') # Elimina columnas vacias
+
 
 st.title("🍿 CineMatch - Tu recomendador de películas")
 st.markdown("Busca películas por título (inglés o español) o explora por género 🎥")
