@@ -2,17 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 
-# Intentar leer desde GitHub directamente
-try:
-    csv_url = "https://raw.githubusercontent.com/henrymunoz/cineapp/main/movies_buscador_IN_ESP.csv"
-    df = pd.read_csv(csv_url, sep=';', encoding='latin-1')
-    st.success("✅ Datos cargados correctamente desde GitHub")
-except Exception as e:
-    st.error("❌ No se pudo cargar el archivo CSV desde GitHub.")
-    st.write("Detalles del error:", e)
-    st.stop()
-
-
 # ===== CONFIG =====
 st.set_page_config(page_title="🎬 CineMatch - Recomendador", layout="wide")
 
@@ -110,11 +99,7 @@ page_bg = """
 st.markdown(page_bg, unsafe_allow_html=True)
 
 # ===== CARGAR DATA =====
-#df = pd.read_excel("movies_buscador_IN_ESP.xlsx")  SE ELIMINA BUSQUEDA EN EXCEL
-#df = pd.read_csv("movies_buscador_IN_ESP.csv", sep=';', encoding='utf-8', engine='python')
-df = pd.read_csv("movies_buscador_IN_ESP.csv", sep=';', encoding='latin-1', engine='python')
-df = df.dropna(axis=1, how='all') # Elimina columnas vacias
-
+df = pd.read_excel("movies_buscador_IN_ESP.xlsx")
 
 st.title("🍿 CineMatch - Tu recomendador de películas")
 st.markdown("Busca películas por título (inglés o español) o explora por género 🎥")
@@ -157,13 +142,11 @@ else:
     else:
         cols = st.columns(6)
 
-       
         for i, (_, row) in enumerate(filtered_df.iterrows()):
             tmdb_link = row["LINK TMDBLD"]
             tmdb_id = tmdb_link.split("/")[-1] if tmdb_link else None
             rating = row.get("rating", None)
 
-         
             # ===== CLASIFICAR RATING =====
             if pd.isna(rating):
                 rating_html = '<div class="rating-badge rating-medium">⭐ N/A</div>'
@@ -180,7 +163,8 @@ else:
                 try:
                     response = requests.get(
                         f"https://api.themoviedb.org/3/movie/{tmdb_id}",
-                        params={"api_key": "d2006726b1679b1f1ed8deb5e583fdc1", "language": "es-ES"}
+                        params={"api_key": "9f0bd3de6d61891223e72ec93de05459", "language": "es-ES"}
+                        # Nota: API key temporal para revisión académica (será revocada después del 6 de noviembre)
                     )
                     if response.status_code == 200:
                         data = response.json()
