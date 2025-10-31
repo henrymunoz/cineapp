@@ -157,19 +157,18 @@ else:
     else:
         cols = st.columns(6)
 
+           # ===== CLASIFICAR Reemplaza  , por un  . en RATING =====
+             try:
+                 rating = float(str(rating).replace(',', '.'))
+             except:
+                 rating = None
+
         for i, (_, row) in enumerate(filtered_df.iterrows()):
             tmdb_link = row["LINK TMDBLD"]
             tmdb_id = tmdb_link.split("/")[-1] if tmdb_link else None
             rating = row.get("rating", None)
 
-             # ===== CLASIFICAR Reemplaza  , por un  . en RATING =====
-             try:
-                 rating = float(str(rating).replace(',', '.'))
-             except:
-                 rating = None
- 
-
-
+         
             # ===== CLASIFICAR RATING =====
             if pd.isna(rating):
                 rating_html = '<div class="rating-badge rating-medium">⭐ N/A</div>'
