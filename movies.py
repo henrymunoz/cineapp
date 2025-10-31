@@ -2,6 +2,17 @@ import streamlit as st
 import pandas as pd
 import requests
 
+# Intentar leer desde GitHub directamente
+try:
+    csv_url = "https://raw.githubusercontent.com/henrymunoz/cineapp/main/movies_buscador_IN_ESP.csv"
+    df = pd.read_csv(csv_url, sep=';', encoding='latin-1')
+    st.success("✅ Datos cargados correctamente desde GitHub")
+except Exception as e:
+    st.error("❌ No se pudo cargar el archivo CSV desde GitHub.")
+    st.write("Detalles del error:", e)
+    st.stop()
+
+
 # ===== CONFIG =====
 st.set_page_config(page_title="🎬 CineMatch - Recomendador", layout="wide")
 
